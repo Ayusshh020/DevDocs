@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevDocs | Architect Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <button id="menuBtn" onclick="toggleSidebar()">MENU</button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">D <span>DevDocs</span></div>
+        <div class="nav-link active" onclick="nav('patterns', this)">◈ <span>Patterns</span></div>
+        <div class="nav-link" onclick="nav('pricing', this)">💳 <span>Pricing</span></div>
+        <div class="nav-link" onclick="nav('performance', this)">⚡ <span>Performance</span></div>
+    </aside>
+
+    <div class="content" id="content">
+        <div id="patterns" data-section class="active">
+            <div class="header-box">
+                <div>
+                    <div style="color: var(--accent); font-size: 12px; margin-bottom: 10px; font-family: 'JetBrains Mono';">// global_arch_v4_registry</div>
+                    <h1 style="font-size: 48px; margin: 0; letter-spacing: -1.5px;">Architecture Library</h1>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="patternSearch" placeholder="Search patterns by name or scale...">
+                </div>
+            </div>
+            <div class="grid" id="patternsGrid"></div>
+        </div>
+
+        <div id="performance" data-section>
+            <div class="header-box">
+                <div>
+                    <div style="color: var(--accent-perf); font-size: 12px; margin-bottom: 10px; font-family: 'JetBrains Mono';">// real_time_benchmarks</div>
+                    <h1 style="font-size: 48px; margin: 0; letter-spacing: -1.5px;">Performance Tuning</h1>
+                </div>
+            </div>
+            <div class="grid" id="perfGrid"></div>
+        </div>
+
+        <div id="pricing" data-section style="text-align: center; padding-top: 100px;">
+            <h1 style="font-size: 56px; letter-spacing: -2px;">Subscription Plans</h1>
+            <p style="color: var(--text-dim); font-size: 20px;">Unlock full deep-dive system design blueprints.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
