@@ -1,32 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevDocs | Architect Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <button id="menuBtn" onclick="toggleSidebar()">MENU</button>
 
+    <!-- ── SIDEBAR ─────────────────────────────── -->
     <aside class="sidebar" id="sidebar">
-        <div class="logo">D <span>DevDocs</span></div>
+        <div class="logo"><span>DevDocs</span></div>
         <div class="nav-link active" onclick="nav('patterns', this)">◈ <span>Patterns</span></div>
         <div class="nav-link" onclick="nav('pricing', this)">💳 <span>Pricing</span></div>
         <div class="nav-link" onclick="nav('performance', this)">⚡ <span>Performance</span></div>
+
+        <!-- Profile button pinned to bottom of sidebar -->
+        <div class="sidebar-bottom">
+            <button class="profile-btn" onclick="openProfile()">
+                <div class="profile-btn-avatar">AK</div>
+                <div class="profile-btn-info">
+                    <span class="profile-btn-name">Ayush Kumar</span>
+                    <span class="profile-btn-role">Sr. Architect</span>
+                </div>
+                <span class="profile-btn-arrow">›</span>
+            </button>
+        </div>
     </aside>
 
+    <!-- ── MAIN CONTENT ───────────────────────── -->
     <div class="content" id="content">
         <div id="patterns" data-section class="active">
             <div class="header-box">
                 <div>
-                    <div style="color: var(--accent); font-size: 12px; margin-bottom: 10px; font-family: 'JetBrains Mono';">// global_arch_v4_registry</div>
                     <h1 style="font-size: 48px; margin: 0; letter-spacing: -1.5px;">Architecture Library</h1>
                 </div>
                 <div class="search-container">
-                    <input type="text" id="patternSearch" placeholder="Search patterns by name or scale...">
+                    <input type="text" id="patternSearch"
+                        placeholder="Search by name, scale (1M users), or latency (Low / High)...">
                 </div>
             </div>
             <div class="grid" id="patternsGrid"></div>
@@ -35,19 +53,98 @@
         <div id="performance" data-section>
             <div class="header-box">
                 <div>
-                    <div style="color: var(--accent-perf); font-size: 12px; margin-bottom: 10px; font-family: 'JetBrains Mono';">// real_time_benchmarks</div>
+                    <div
+                        style="color: var(--accent-perf); font-size: 12px; margin-bottom: 10px; font-family: 'JetBrains Mono';">
+                        // real_time_benchmarks</div>
                     <h1 style="font-size: 48px; margin: 0; letter-spacing: -1.5px;">Performance Tuning</h1>
                 </div>
             </div>
             <div class="grid" id="perfGrid"></div>
         </div>
 
-        <div id="pricing" data-section style="text-align: center; padding-top: 100px;">
-            <h1 style="font-size: 56px; letter-spacing: -2px;">Subscription Plans</h1>
-            <p style="color: var(--text-dim); font-size: 20px;">Unlock full deep-dive system design blueprints.</p>
+        <div id="pricing" data-section>
+            <div class="header-box">
+                <div>
+                    <div style="color: #c084fc; font-size: 12px; margin-bottom: 10px; font-family: 'JetBrains Mono';">//
+                        subscription_plans.config</div>
+                    <h1 style="font-size: 48px; margin: 0; letter-spacing: -1.5px;">Subscription Plans</h1>
+                    <p style="color: var(--text-dim); font-size: 16px; margin-top: 10px;">Unlock full deep-dive system
+                        design blueprints. Cancel anytime.</p>
+                </div>
+            </div>
+            <div class="grid pricing-grid" id="pricingGrid"></div>
         </div>
+    </div>
+
+    <!-- ── PROFILE PANEL OVERLAY ──────────────── -->
+    <div class="profile-overlay" id="profileOverlay" onclick="closeProfile()"></div>
+
+    <!-- ── PROFILE PANEL ──────────────────────── -->
+    <div class="profile-panel" id="profilePanel">
+
+        <!-- Header -->
+        <div class="pp-header">
+            <div class="pp-avatar">AK</div>
+            <div class="pp-name-group">
+                <h2 class="pp-name">Ayush Kumar</h2>
+                <span class="pp-badge">Pro Member</span>
+            </div>
+            <button class="pp-close" onclick="closeProfile()">✕</button>
+        </div>
+
+        <!-- Info rows -->
+        <div class="pp-section">
+            <div class="pp-section-label">Account Info</div>
+            <div class="pp-row"><span class="pp-row-key">📧 Email</span><span class="pp-row-val">ayush@devdocs.io</span>
+            </div>
+            <div class="pp-row"><span class="pp-row-key">🌍 Location</span><span class="pp-row-val">India</span></div>
+            <div class="pp-row"><span class="pp-row-key">🎓 Role</span><span class="pp-row-val">Senior Architect</span>
+            </div>
+            <div class="pp-row"><span class="pp-row-key">📅 Member Since</span><span class="pp-row-val">Jan 2024</span>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="pp-section">
+            <div class="pp-section-label">Activity</div>
+            <div class="pp-stats">
+                <div class="pp-stat">
+                    <div class="pp-stat-num">42</div>
+                    <div class="pp-stat-lbl">Blueprints Read</div>
+                </div>
+                <div class="pp-stat">
+                    <div class="pp-stat-num">8</div>
+                    <div class="pp-stat-lbl">Saved Patterns</div>
+                </div>
+                <div class="pp-stat">
+                    <div class="pp-stat-num">3</div>
+                    <div class="pp-stat-lbl">Reviews Given</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme toggle -->
+        <div class="pp-section">
+            <div class="pp-section-label">Appearance</div>
+            <div class="pp-theme-row">
+                <span class="pp-row-key">🎨 Theme</span>
+                <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                    <span class="theme-opt" id="themeOptDark">🌙 Dark</span>
+                    <span class="theme-opt" id="themeOptLight">☀️ Light</span>
+                    <div class="theme-slider" id="themeSlider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="pp-actions">
+            <button class="pp-action-btn pp-action-edit">✏️ Edit Profile</button>
+            <button class="pp-action-btn pp-action-logout">🚪 Log Out</button>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>
