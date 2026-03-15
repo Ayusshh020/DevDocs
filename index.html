@@ -1,150 +1,223 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevDocs | Architect Portal</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevDocs | Architect Portal</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-
 <body>
 
-    <button id="menuBtn" onclick="toggleSidebar()">MENU</button>
-
-    <!-- ── SIDEBAR ─────────────────────────────── -->
-    <aside class="sidebar" id="sidebar">
-        <div class="logo"><span>DevDocs</span></div>
-        <div class="nav-link active" onclick="nav('patterns', this)">◈ <span>Patterns</span></div>
-        <div class="nav-link" onclick="nav('pricing', this)">💳 <span>Pricing</span></div>
-        <div class="nav-link" onclick="nav('performance', this)">⚡ <span>Performance</span></div>
-
-        <!-- Profile button pinned to bottom of sidebar -->
-        <div class="sidebar-bottom">
-            <button class="profile-btn" onclick="openProfile()">
-                <div class="profile-btn-avatar">AK</div>
-                <div class="profile-btn-info">
-                    <span class="profile-btn-name">Ayush Kumar</span>
-                    <span class="profile-btn-role">Sr. Architect</span>
-                </div>
-                <span class="profile-btn-arrow">›</span>
-            </button>
-        </div>
-    </aside>
-
-    <!-- ── MAIN CONTENT ───────────────────────── -->
-    <div class="content" id="content">
-        <div id="patterns" data-section class="active">
-            <div class="header-box">
-                <div>
-                    <h1 style="font-size: 48px; margin: 0; letter-spacing: -1.5px;">Architecture Library</h1>
-                </div>
-                <div class="search-container">
-                    <input type="text" id="patternSearch"
-                        placeholder="Search by name, scale (1M users), or latency (Low / High)...">
-                </div>
-            </div>
-            <div class="grid" id="patternsGrid"></div>
-        </div>
-
-        <div id="performance" data-section>
-            <div class="header-box">
-                <div>
-                    <div
-                        style="color: var(--accent-perf); font-size: 12px; margin-bottom: 10px; font-family: 'JetBrains Mono';">
-                        // real_time_benchmarks</div>
-                    <h1 style="font-size: 48px; margin: 0; letter-spacing: -1.5px;">Performance Tuning</h1>
-                </div>
-            </div>
-            <div class="grid" id="perfGrid"></div>
-        </div>
-
-        <div id="pricing" data-section>
-            <div class="header-box">
-                <div>
-                    <div style="color: #c084fc; font-size: 12px; margin-bottom: 10px; font-family: 'JetBrains Mono';">//
-                        subscription_plans.config</div>
-                    <h1 style="font-size: 48px; margin: 0; letter-spacing: -1.5px;">Subscription Plans</h1>
-                    <p style="color: var(--text-dim); font-size: 16px; margin-top: 10px;">Unlock full deep-dive system
-                        design blueprints. Cancel anytime.</p>
-                </div>
-            </div>
-            <div class="grid pricing-grid" id="pricingGrid"></div>
-        </div>
+<!-- ══ LANDING ════════════════════════════════ -->
+<div id="landing">
+  <div class="lp-inner">
+    <div class="lp-logo">// DEVDOCS &nbsp;·&nbsp; ARCHITECT PORTAL</div>
+    <h1 class="lp-title">Build Systems<br>That <span class="acc">Scale.</span></h1>
+    <p class="lp-sub">Architecture blueprints, performance guides &amp; system design patterns for engineers.</p>
+    <div class="lp-pills">
+      <span>16 Blueprints</span><span>15 Metrics</span><span>3 Plans</span>
     </div>
+    <button class="lp-enter" onclick="enterPortal()">Enter Portal →</button>
+  </div>
+</div>
 
-    <!-- ── PROFILE PANEL OVERLAY ──────────────── -->
-    <div class="profile-overlay" id="profileOverlay" onclick="closeProfile()"></div>
+<!-- ══ SIDEBAR ════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
 
-    <!-- ── PROFILE PANEL ──────────────────────── -->
-    <div class="profile-panel" id="profilePanel">
+  <!-- Logo + toggle button on same row -->
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Dev<span>Docs</span></div>
+    <button class="sidebar-toggle" onclick="toggleSidebar()" title="Close sidebar">✕</button>
+  </div>
 
-        <!-- Header -->
-        <div class="pp-header">
-            <div class="pp-avatar">AK</div>
-            <div class="pp-name-group">
-                <h2 class="pp-name">Ayush Kumar</h2>
-                <span class="pp-badge">Pro Member</span>
-            </div>
-            <button class="pp-close" onclick="closeProfile()">✕</button>
-        </div>
+  <!-- Main nav — 3 sections inside this portal -->
+  <div class="nav-item active" onclick="showSection('patterns',this)">
+    <span class="icon">▦</span> Patterns
+  </div>
+  <div class="nav-item" onclick="showSection('pricing',this)">
+    <span class="icon">◉</span> Pricing
+  </div>
+  <div class="nav-item" onclick="showSection('performance',this)">
+    <span class="icon">◎</span> Performance
+  </div>
 
-        <!-- Info rows -->
-        <div class="pp-section">
-            <div class="pp-section-label">Account Info</div>
-            <div class="pp-row"><span class="pp-row-key">📧 Email</span><span class="pp-row-val">ayush@devdocs.io</span>
-            </div>
-            <div class="pp-row"><span class="pp-row-key">🌍 Location</span><span class="pp-row-val">India</span></div>
-            <div class="pp-row"><span class="pp-row-key">🎓 Role</span><span class="pp-row-val">Senior Architect</span>
-            </div>
-            <div class="pp-row"><span class="pp-row-key">📅 Member Since</span><span class="pp-row-val">Jan 2024</span>
-            </div>
-        </div>
+  <!-- Theme toggle -->
+  <div class="sidebar-theme-row">
+    <span>Theme</span>
+    <button class="theme-pill" id="themeBtn" onclick="toggleTheme()">☀ Light</button>
+  </div>
 
-        <!-- Stats -->
-        <div class="pp-section">
-            <div class="pp-section-label">Activity</div>
-            <div class="pp-stats">
-                <div class="pp-stat">
-                    <div class="pp-stat-num">42</div>
-                    <div class="pp-stat-lbl">Blueprints Read</div>
-                </div>
-                <div class="pp-stat">
-                    <div class="pp-stat-num">8</div>
-                    <div class="pp-stat-lbl">Saved Patterns</div>
-                </div>
-                <div class="pp-stat">
-                    <div class="pp-stat-num">3</div>
-                    <div class="pp-stat-lbl">Reviews Given</div>
-                </div>
-            </div>
-        </div>
+  <!-- Profile card pinned to bottom -->
+  <div class="sidebar-bottom">
+    <button class="profile-btn">
+      <div class="profile-avatar">AM</div>
+      <div>
+        <div class="profile-name">Ayush Mishra </div>
+        <div class="profile-role">Sr. Architect</div>
+      </div>
+      <span class="profile-arrow">›</span>
+    </button>
+  </div>
+</aside>
 
-        <!-- Theme toggle -->
-        <div class="pp-section">
-            <div class="pp-section-label">Appearance</div>
-            <div class="pp-theme-row">
-                <span class="pp-row-key">🎨 Theme</span>
-                <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-                    <span class="theme-opt" id="themeOptDark">🌙 Dark</span>
-                    <span class="theme-opt" id="themeOptLight">☀️ Light</span>
-                    <div class="theme-slider" id="themeSlider"></div>
-                </div>
-            </div>
-        </div>
+<!-- Floating button to RE-OPEN sidebar when it's hidden -->
+<button class="sidebar-open-btn" id="openBtn" onclick="toggleSidebar()">☰ Menu</button>
 
-        <!-- Actions -->
-        <div class="pp-actions">
-            <button class="pp-action-btn pp-action-edit">✏️ Edit Profile</button>
-            <button class="pp-action-btn pp-action-logout">🚪 Log Out</button>
-        </div>
+<!-- ══ MAIN PORTAL CONTENT ════════════════════ -->
+<div class="portal-content" id="portalContent">
 
+  <!-- ── PATTERNS SECTION ─────────────────── -->
+  <div class="section active" id="sec-patterns">
+    <div class="page-header">
+      <h1>Architecture <span class="accent">Library</span></h1>
+      <p>16 battle-tested patterns. Search by name, scale, latency or tech stack.</p>
     </div>
+    <div class="search-wrap">
+      <input id="homeSearch" class="search-input" type="text"
+        placeholder="Search: microservices, 1M users, Low latency, Kafka..."/>
+    </div>
+    <p class="meta" id="homeMeta">Showing all 16 patterns</p>
+    <div class="grid" id="homeGrid"></div>
+  </div>
 
-    <script src="script.js"></script>
+  <!-- ── PRICING SECTION ──────────────────── -->
+  <div class="section" id="sec-pricing">
+    <div class="page-header">
+      <h1>Subscription <span class="accent">Plans</span></h1>
+      <p>Unlock full deep-dive system design blueprints. Cancel anytime.</p>
+    </div>
+    <div class="pricing-grid" id="pricingGrid"></div>
+  </div>
+
+  <!-- ── PERFORMANCE SECTION ──────────────── -->
+  <div class="section" id="sec-performance">
+    <div class="page-header">
+      <h1>Performance <span class="accent">Tuning</span></h1>
+      <p>Real-time metrics across your architecture stack.</p>
+    </div>
+    <div class="grid" id="perfGrid"></div>
+  </div>
+
+</div><!-- /portal-content -->
+
+<script src="script.js"></script>
+<script>
+// ── sidebar nav ───────────────────────────────
+function showSection(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  // close on mobile
+  if (window.innerWidth <= 900) toggleSidebar();
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const content = document.getElementById('portalContent');
+  const openBtn = document.getElementById('openBtn');
+
+  const isHidden = sidebar.classList.toggle('hidden');  // toggle hidden class
+
+  // shift main content left when sidebar hides
+  content.classList.toggle('full', isHidden);
+
+  // show/hide the floating "Menu" button
+  openBtn.style.display = isHidden ? 'flex' : 'none';
+}
+
+// ── enter portal ──────────────────────────────
+function enterPortal() {
+  const l = document.getElementById('landing');
+  l.style.opacity = '0';
+  setTimeout(() => l.remove(), 400);
+}
+
+// ── render pattern cards ──────────────────────
+function renderHome(list) {
+  const grid = document.getElementById('homeGrid');
+  document.getElementById('homeMeta').textContent =
+    list.length === patterns.length
+      ? `Showing all ${patterns.length} patterns`
+      : `${list.length} result${list.length !== 1 ? 's' : ''} found`;
+
+  if (!list.length) {
+    grid.innerHTML = `<p style="color:var(--text-dim);grid-column:1/-1;font-family:var(--mono);font-size:13px;padding:40px 0;">No patterns found.</p>`;
+    return;
+  }
+  grid.innerHTML = list.map(p => {
+    const techs = p.tech.split(',').map(t => `<span class="tech-badge">${t.trim()}</span>`).join('');
+    return `
+      <div class="card">
+        <span class="card-tag">${p.tag}</span>
+        <h3>${p.name}</h3>
+        <p class="scale">📈 ${p.scale}</p>
+        <div class="tech-list">${techs}</div>
+        <p class="pros">✅ ${p.pros}</p>
+        <p class="cons">❌ ${p.cons}</p>
+        <div class="card-footer">
+          <span class="latency">⏱ ${p.latency} latency</span>
+          <span class="cost">${p.cost}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── render pricing ────────────────────────────
+function renderPricing() {
+  document.getElementById('pricingGrid').innerHTML = pricingData.map(p => {
+    const featuresHtml = p.features.map(f => `<li>${f}</li>`).join('');
+    const isFeatured = !!p.badge;
+    return `
+      <div class="pricing-card ${isFeatured ? 'featured' : ''}" style="--plan-color:${p.color}">
+        ${p.badge ? `<div class="pricing-badge">${p.badge}</div>` : ''}
+        <div class="pricing-tier" style="color:${p.color}">${p.tier}</div>
+        <div class="pricing-price">
+          <span class="pricing-amount" style="color:${p.color}">${p.price}</span>
+          <span class="pricing-period">/month</span>
+        </div>
+        <p class="pricing-tagline">${p.tagline}</p>
+        <ul class="pricing-features">${featuresHtml}</ul>
+        <button class="pricing-cta"
+          style="border:1px solid ${p.color};color:${p.color};"
+          onmouseover="this.style.background='${p.color}';this.style.color='#000';"
+          onmouseout="this.style.background='transparent';this.style.color='${p.color}';">
+          ${p.cta}
+        </button>
+      </div>`;
+  }).join('');
+}
+
+// ── render performance ────────────────────────
+function getStatClass(s) {
+  const good = ['optimized','stable','high','healthy','excellent','normal','fast','passed','optimal','low'];
+  const bad  = ['warning','slow','peak'];
+  const sl = s.toLowerCase();
+  if (bad.includes(sl))  return 'stat-warn';
+  if (good.includes(sl)) return 'stat-good';
+  return 'stat-neutral';
+}
+
+function renderPerf() {
+  document.getElementById('perfGrid').innerHTML = perfData.map(p => `
+    <div class="perf-card">
+      <span class="perf-tag">${p.tag}</span>
+      <div class="perf-metric">${p.metric}</div>
+      <div class="perf-name">${p.name}</div>
+      <div class="perf-desc">${p.desc}</div>
+      <span class="perf-stat ${getStatClass(p.stat)}">${p.stat}</span>
+    </div>`).join('');
+}
+
+// ── init ──────────────────────────────────────
+renderHome(patterns);
+renderPricing();
+renderPerf();
+syncThemeBtn();
+
+document.getElementById('homeSearch').addEventListener('input', function () {
+  renderHome(filterPatterns(this.value.trim()));
+});
+</script>
 </body>
-
 </html>

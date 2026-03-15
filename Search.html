@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevDocs | Search</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-logo">Dev<span>Docs</span></div>
+  <a href="index.html">Home</a>
+  <a href="patterns.html">Patterns</a>
+  <a href="search.html" class="active">Search</a>
+  <button id="themeBtn" onclick="toggleTheme()">☀ Light</button>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <h1>🔍 Search <span class="accent">Patterns</span></h1>
+    <p>Find the right architecture by name, scale, latency, or tech stack.</p>
+  </div>
+
+  <div class="search-wrap">
+    <input id="searchInput" class="search-input" type="text"
+      placeholder="Try: microservices, 1M users, Low latency, Kafka, Cloud..." autofocus/>
+  </div>
+
+  <div class="chips">
+    <button class="chip active" onclick="applyChip(this,'')">All</button>
+    <button class="chip" onclick="applyChip(this,'low')">⚡ Low Latency</button>
+    <button class="chip" onclick="applyChip(this,'high')">🐢 High Latency</button>
+    <button class="chip" onclick="applyChip(this,'cloud')">☁️ Cloud</button>
+    <button class="chip" onclick="applyChip(this,'distributed')">🌐 Distributed</button>
+    <button class="chip" onclick="applyChip(this,'database')">🗃️ Database</button>
+    <button class="chip" onclick="applyChip(this,'async')">⚙️ Async</button>
+  </div>
+
+  <p class="meta" id="searchMeta">Showing all 16 patterns</p>
+  <div class="result-list" id="resultList"></div>
+</div>
+
+<script src="script.js"></script>
+<script>
+function renderResults(list, rawQ) {
+  const el   = document.getElementById('resultList');
+  const meta = document.getElementById('searchMeta');
+  const q    = rawQ || '';
+
+  meta.textContent = q
+    ? `${list.length} result${list.length !== 1 ? 's' : ''} for "${q}"`
+    : `Showing all ${list.length} patterns`;
+
+  if (!list.length) {
+    el.innerHTML = `
+      <div style="text-align:center;padding:60px 0;">
+        <div style="font-size:48px;margin-bottom:16px;">🔍</div>
+        <p style="font-family:var(--mono);font-size:14px;color:var(--text-dim);">
+          No results for "<strong style="color:var(--text)">${q}</strong>"<br>
+          Try: name, scale (1M users), latency (Low), or tech (Kafka, Go)
+        </p>
+      </div>`;
+    return;
+  }
+
+  el.innerHTML = list.map(p => `
+    <div class="result-item">
+      <div>
+        <div class="r-name">${highlight(p.name, q)}</div>
+        <div class="r-detail">
+          🔧 ${highlight(p.tech, q)}<br>
+          ✅ ${p.pros} &nbsp;·&nbsp;
+          <span style="color:var(--acc-red)">❌ ${p.cons}</span><br>
+          📈 ${highlight(p.scale, q)} &nbsp;·&nbsp; ⏱ ${highlight(p.latency, q)} latency
+        </div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div class="r-cost">${p.cost}</div>
+        <span class="r-tag">${p.tag}</span>
+      </div>
+    </div>`).join('');
+}
+
+function applyChip(btn, keyword) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('searchInput').value = keyword;
+  renderResults(filterPatterns(keyword), keyword);
+}
+
+document.getElementById('searchInput').addEventListener('input', function () {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  renderResults(filterPatterns(this.value.trim()), this.value.trim());
+});
+
+renderResults(patterns, '');
+syncThemeBtn();
+</script>
+</body>
+</html>
